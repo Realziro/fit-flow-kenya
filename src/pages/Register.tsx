@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import AuthLayout from "@/components/auth/AuthLayout";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Database } from "@/integrations/supabase/types";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const Register = () => {
       
       // After successful registration, update the phone number in the profile
       if (data.user) {
+        // Type-safe update to the profiles table
         const { error: profileError } = await supabase
           .from('profiles')
           .update({ phone: formData.phone })
