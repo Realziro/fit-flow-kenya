@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import AuthLayout from "@/components/auth/AuthLayout";
 import { Eye, EyeOff } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -37,13 +38,36 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      // Mock registration - would connect to backend in real implementation
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Register with Supabase
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+          },
+        }
+      });
       
-      toast.success("Account created successfully!");
+      if (error) throw error;
+      
+      // After successful registration, update the phone number in the profile
+      if (data.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({ phone: formData.phone })
+          .eq('id', data.user.id);
+          
+        if (profileError) {
+          console.error("Error updating profile:", profileError);
+        }
+      }
+      
+      toast.success("Account created successfully! Please check your email for verification.");
       navigate("/login");
-    } catch (error) {
-      toast.error("Registration failed. Please try again.");
+    } catch (error: any) {
+      toast.error(error.message || "Registration failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
