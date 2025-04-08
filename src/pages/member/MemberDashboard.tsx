@@ -1,13 +1,15 @@
-
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { CreditCard, AlertCircle, Calendar, Activity } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const MemberDashboard = () => {
-  // Mock data for member dashboard
+  const navigate = useNavigate();
+  
   const membershipData = {
     plan: "Premium Membership",
     status: "Active",
@@ -28,6 +30,10 @@ const MemberDashboard = () => {
 
   const progressPercentage = (membershipData.daysLeft / 30) * 100;
 
+  const handlePayNow = () => {
+    navigate("/member/payments");
+  };
+
   return (
     <DashboardLayout userType="member">
       <div className="space-y-6">
@@ -36,7 +42,6 @@ const MemberDashboard = () => {
           <p className="text-gray-600">Welcome back! Manage your fitness journey.</p>
         </div>
 
-        {/* Membership Status Card */}
         <Card className="border-t-4 border-t-kenya-green">
           <CardHeader className="pb-2">
             <div className="flex justify-between items-start">
@@ -84,7 +89,6 @@ const MemberDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
         <div>
           <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -96,11 +100,12 @@ const MemberDashboard = () => {
                   </div>
                   <h3 className="font-medium mb-2">Make a Payment</h3>
                   <p className="text-sm text-gray-500 mb-4">Pay your membership fee via M-Pesa</p>
-                  <Link to="/member/payments">
-                    <Button className="w-full bg-kenya-green hover:bg-kenya-green-light">
-                      Pay Now
-                    </Button>
-                  </Link>
+                  <Button 
+                    className="w-full bg-kenya-green hover:bg-kenya-green-light"
+                    onClick={handlePayNow}
+                  >
+                    Pay Now
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -141,7 +146,6 @@ const MemberDashboard = () => {
           </div>
         </div>
 
-        {/* Notifications */}
         <Card>
           <CardHeader>
             <CardTitle>Notifications</CardTitle>

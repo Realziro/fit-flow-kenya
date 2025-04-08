@@ -1,5 +1,4 @@
-
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { 
   Home, 
@@ -17,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -51,14 +51,47 @@ const DashboardLayout = ({ children, userType }: DashboardLayoutProps) => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [profile, setProfile] = useState<{first_name?: string, last_name?: string} | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleLogout = () => {
-    // Mock logout - would connect to backend in real implementation
+  useEffect(() => {
+    const fetchUserAndProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      
+      if (user) {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('first_name, last_name')
+          .eq('id', user.id)
+          .single();
+          
+        if (!error && data) {
+          setProfile(data);
+        }
+      }
+      
+      setLoading(false);
+    };
+    
+    fetchUserAndProfile();
+  }, []);
+
+  const displayName = profile ? 
+    `${profile.first_name || ''} ${profile.last_name || ''}`.trim() : 
+    (userType === "admin" ? "Admin User" : "User");
+    
+  const initials = profile ? 
+    `${(profile.first_name?.[0] || '')}${(profile.last_name?.[0] || '')}`.toUpperCase() : 
+    (userType === "admin" ? "A" : "U");
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     toast.success("Logged out successfully");
     navigate("/login");
   };
 
-  // Define navigation items based on user type
   const navItems = userType === "admin" 
     ? [
         { icon: <Home size={20} />, label: "Dashboard", href: "/admin/dashboard" },
@@ -72,6 +105,7 @@ const DashboardLayout = ({ children, userType }: DashboardLayoutProps) => {
         { icon: <User size={20} />, label: "My Profile", href: "/member/profile" },
         { icon: <CreditCard size={20} />, label: "Payments", href: "/member/payments" },
         { icon: <Calendar size={20} />, label: "Membership", href: "/member/membership" },
+        { icon: <Calendar size={20} />, label: "Sessions", href: "/member/sessions" },
         { icon: <Settings size={20} />, label: "Settings", href: "/member/settings" },
       ];
 
@@ -80,7 +114,6 @@ const DashboardLayout = ({ children, userType }: DashboardLayoutProps) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top Navigation */}
       <header className="bg-white shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-30">
         <div className="px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -104,32 +137,26 @@ const DashboardLayout = ({ children, userType }: DashboardLayoutProps) => {
             <div className="flex items-center gap-3">
               <div className="hidden md:block text-right">
                 <div className="text-sm font-medium">
-                  {userType === "admin" ? "Admin User" : "John Doe"}
+                  {loading ? "Loading..." : displayName}
                 </div>
                 <div className="text-xs text-gray-500">
                   {userType === "admin" ? "Administrator" : "Silver Member"}
                 </div>
               </div>
               <div className="h-10 w-10 rounded-full bg-kenya-green text-white flex items-center justify-center font-medium">
-                {userType === "admin" ? "A" : "JD"}
+                {initials}
               </div>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Sidebar (Overlay) */}
       {isMobile && (
         <>
-          {/* Backdrop */}
-          {isSidebarOpen && (
-            <div 
-              className="fixed inset-0 bg-black/50 z-40"
-              onClick={closeSidebar}
-            />
-          )}
-
-          {/* Sidebar */}
+          <div 
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={closeSidebar}
+          />
           <aside
             className={cn(
               "fixed top-0 left-0 bottom-0 w-64 bg-white z-50 transform transition-transform duration-300 ease-in-out",
@@ -172,9 +199,7 @@ const DashboardLayout = ({ children, userType }: DashboardLayoutProps) => {
         </>
       )}
 
-      {/* Main layout */}
       <div className="flex pt-16 min-h-screen">
-        {/* Desktop Sidebar */}
         {!isMobile && (
           <aside className="w-64 border-r border-gray-200 bg-white fixed left-0 top-16 bottom-0">
             <div className="p-4">
@@ -202,7 +227,6 @@ const DashboardLayout = ({ children, userType }: DashboardLayoutProps) => {
           </aside>
         )}
 
-        {/* Main Content */}
         <div className={`${!isMobile ? "ml-64" : ""} flex-1`}>
           <div className="p-6">
             {children}
