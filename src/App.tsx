@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,10 @@ import Sessions from "./pages/member/Sessions";
 import Membership from "./pages/member/Membership";
 import Settings from "./pages/member/Settings";
 import Payments from "./pages/member/Payments";
+import Members from "./pages/admin/Members";
+import AdminPayments from "./pages/admin/Payments";
+import Reports from "./pages/admin/Reports";
+import AdminSettings from "./pages/admin/Settings";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +43,10 @@ const App = () => (
           
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/members" element={<Members />} />
+          <Route path="/admin/payments" element={<AdminPayments />} />
+          <Route path="/admin/reports" element={<Reports />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
           
           {/* Catch-all route for 404 */}
           <Route path="*" element={<NotFound />} />
