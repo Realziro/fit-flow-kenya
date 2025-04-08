@@ -10,6 +10,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MemberDashboard from "./pages/member/MemberDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import Profile from "./pages/member/Profile";
+import Sessions from "./pages/member/Sessions";
+import Membership from "./pages/member/Membership";
+import Settings from "./pages/member/Settings";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +30,10 @@ const App = () => (
           
           {/* Member Routes */}
           <Route path="/member/dashboard" element={<MemberDashboard />} />
+          <Route path="/member/profile" element={<Profile />} />
+          <Route path="/member/sessions" element={<Sessions />} />
+          <Route path="/member/membership" element={<Membership />} />
+          <Route path="/member/settings" element={<Settings />} />
           
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
