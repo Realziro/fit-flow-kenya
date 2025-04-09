@@ -81,11 +81,11 @@ type PaymentFormValues = z.infer<typeof paymentFormSchema>;
 const Settings = () => {
   // Example gym settings values
   const defaultGeneralValues: GeneralFormValues = {
-    gymName: "FitFlow Kenya",
+    gymName: "BAMS GYM",
     address: "123 Fitness Avenue, Nairobi, Kenya",
     phone: "+254 712 345 678",
-    email: "info@fitflowkenya.com",
-    website: "https://fitflowkenya.com",
+    email: "info@bamsgym.com",
+    website: "https://bamsgym.com",
     description: "Premier fitness center in Kenya offering state-of-the-art equipment and professional training services.",
   };
   

@@ -1,3 +1,4 @@
+
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { 
@@ -123,7 +124,7 @@ const DashboardLayout = ({ children, userType }: DashboardLayoutProps) => {
               </Button>
             )}
             <Link to="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold text-kenya-green">FitFlow</span>
+              <span className="text-xl font-bold text-kenya-green">BAMS GYM</span>
               <span className="text-xs bg-kenya-red text-white px-1 rounded">Kenya</span>
             </Link>
           </div>
@@ -165,7 +166,7 @@ const DashboardLayout = ({ children, userType }: DashboardLayoutProps) => {
           >
             <div className="p-4 flex justify-between items-center border-b">
               <div className="flex items-center space-x-2">
-                <span className="text-lg font-bold text-kenya-green">FitFlow</span>
+                <span className="text-lg font-bold text-kenya-green">BAMS GYM</span>
                 <span className="text-xs bg-kenya-red text-white px-1 rounded">Kenya</span>
               </div>
               <Button variant="ghost" size="icon" onClick={closeSidebar}>

@@ -10,7 +10,7 @@ const Footer = () => {
           {/* Company Information */}
           <div>
             <div className="flex items-center space-x-2 mb-6">
-              <span className="text-2xl font-bold text-kenya-green-light">FitFlow</span>
+              <span className="text-2xl font-bold text-kenya-green-light">BAMS GYM</span>
               <span className="text-sm bg-kenya-red text-white px-1 rounded">Kenya</span>
             </div>
             <p className="text-gray-300 mb-6">
@@ -57,7 +57,7 @@ const Footer = () => {
               </li>
               <li className="flex">
                 <Mail className="mr-3 h-5 w-5 text-kenya-green-light" />
-                <span className="text-gray-300">info@fitflowkenya.com</span>
+                <span className="text-gray-300">info@bamsgym.com</span>
               </li>
               <li className="flex">
                 <Clock className="mr-3 h-5 w-5 text-kenya-green-light" />
@@ -89,7 +89,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} FitFlow Kenya. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} BAMS GYM Kenya. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

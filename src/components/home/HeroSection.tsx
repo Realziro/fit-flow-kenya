@@ -23,7 +23,7 @@ const HeroSection = () => {
               Transform Your Body, <span className="text-kenya-green-light">Transform Your Life</span>
             </h1>
             <p className="text-xl text-gray-200 mb-8 max-w-xl">
-              Join Kenya's premier fitness center and start your journey to a healthier, 
+              Join BAMS GYM, Kenya's premier fitness center and start your journey to a healthier, 
               stronger you with our world-class facilities and expert trainers.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">

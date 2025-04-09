@@ -17,7 +17,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-kenya-green">FitFlow</span>
+            <span className="text-2xl font-bold text-kenya-green">BAMS GYM</span>
             <span className="text-sm bg-kenya-red text-white px-1 rounded">Kenya</span>
           </Link>
           
