@@ -42,6 +42,12 @@ type Payment = {
   user_email: string;
 };
 
+type Profile = {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+};
+
 const AdminPayments = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,17 +70,28 @@ const AdminPayments = () => {
     setLoading(true);
     
     try {
-      // Fetch payments with profiles
-      const { data, error } = await supabase
+      // First, get all payments
+      const { data: paymentData, error: paymentError } = await supabase
         .from('payments')
-        .select('*, profiles(first_name, last_name)');
+        .select('*');
       
-      if (error) throw error;
+      if (paymentError) throw paymentError;
+      
+      // Separately get all profiles
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, first_name, last_name');
+      
+      if (profilesError) throw profilesError;
       
       // Transform the data
-      const formattedPayments = data?.map(payment => {
-        const profile = payment.profiles as { first_name: string; last_name: string };
-        const userName = profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() : 'Unknown User';
+      const formattedPayments = paymentData?.map(payment => {
+        // Find the matching profile
+        const profile = profilesData.find(p => p.id === payment.user_id) as Profile | undefined;
+        
+        const userName = profile 
+          ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() 
+          : 'Unknown User';
         
         return {
           ...payment,

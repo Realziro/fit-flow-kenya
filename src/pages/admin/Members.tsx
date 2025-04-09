@@ -50,6 +50,19 @@ type Member = {
   join_date: string;
 };
 
+type AuthUser = {
+  id: string;
+  email: string;
+  created_at: string;
+};
+
+type Profile = {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
+};
+
 const Members = () => {
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,8 +78,14 @@ const Members = () => {
     
     try {
       // Get users from auth
-      const { data: authUsers, error: authError } = await supabase.auth.admin.listUsers();
+      const { data: authData, error: authError } = await supabase.auth.admin.listUsers();
       if (authError) throw authError;
+      
+      const authUsers: AuthUser[] = authData?.users?.map(user => ({
+        id: user.id,
+        email: user.email || '',
+        created_at: user.created_at || ''
+      })) || [];
       
       // Get profiles
       const { data: profiles, error: profilesError } = await supabase
@@ -91,7 +110,7 @@ const Members = () => {
       
       // Process and combine the data
       const combinedData = profiles?.map(profile => {
-        const user = authUsers?.users.find(u => u.id === profile.id);
+        const user = authUsers.find(u => u.id === profile.id);
         const membership = memberships?.find(m => m.user_id === profile.id);
         const plan = membership ? plans?.find(p => p.id === membership.plan_id) : null;
         
