@@ -1,17 +1,26 @@
 
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
+  useEffect(() => {
+    console.log('HeroSection mounted');
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-black">
+    <section className="relative overflow-hidden bg-black min-h-[80vh]">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop"
           alt="Gym background"
           className="w-full h-full object-cover opacity-60"
+          onError={(e) => {
+            console.error('Image failed to load');
+            e.currentTarget.style.display = 'none';
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/50"></div>
       </div>

@@ -45,6 +45,11 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 142 68% 32%;
+
+    --kenya-green: 142 68% 32%;
+    --kenya-green-light: 142 68% 42%;
+    --kenya-red: 0 84% 60%;
+    --kenya-black: 222 47% 11%;
   }
 
   .dark {
@@ -111,15 +116,15 @@
 
 @layer components {
   .hero-gradient {
-    @apply bg-gradient-to-br from-kenya-green-light to-kenya-green;
+    @apply bg-gradient-to-br from-[theme(--kenya-green-light)] to-[theme(--kenya-green)];
   }
   
   .btn-primary {
-    @apply bg-kenya-green hover:bg-kenya-green-light text-white font-semibold transition-colors;
+    @apply bg-[theme(--kenya-green)] hover:bg-[theme(--kenya-green-light)] text-white font-semibold transition-colors;
   }
   
   .btn-secondary {
-    @apply bg-white hover:bg-gray-100 text-kenya-green border border-kenya-green font-semibold transition-colors;
+    @apply bg-white hover:bg-gray-100 text-[theme(--kenya-green)] border border-[theme(--kenya-green)] font-semibold transition-colors;
   }
 
   .section-padding {
@@ -129,4 +134,41 @@
   .container-padding {
     @apply px-4 md:px-8;
   }
+  
+  .bg-kenya-green {
+    @apply bg-[#1e824c];
+  }
+  
+  .bg-kenya-green-light {
+    @apply bg-[#27ae60];
+  }
+  
+  .bg-kenya-red {
+    @apply bg-[#e74c3c];
+  }
+  
+  .text-kenya-green {
+    @apply text-[#1e824c];
+  }
+  
+  .text-kenya-green-light {
+    @apply text-[#27ae60];
+  }
+  
+  .hover\:bg-kenya-green-light:hover {
+    @apply hover:bg-[#27ae60];
+  }
+  
+  .border-kenya-green {
+    @apply border-[#1e824c];
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
 }

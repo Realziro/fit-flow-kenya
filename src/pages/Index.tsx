@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import Layout from "@/components/layout/Layout";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesSection from "@/components/home/ServicesSection";
@@ -8,6 +9,10 @@ import TestimonialsSection from "@/components/home/TestimonialsSection";
 import ContactSection from "@/components/home/ContactSection";
 
 const Index = () => {
+  useEffect(() => {
+    console.log('Index page mounted');
+  }, []);
+
   return (
     <Layout>
       <HeroSection />
